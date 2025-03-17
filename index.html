@@ -6,27 +6,23 @@
     <title>CSAT Sound</title>
 </head>
 <body>
-    <button id="playSound" style="font-size: 20px; padding: 10px;">🔊 Play Sound</button>
-    <audio id="sound">
+    <audio id="sound" autoplay>
         <source src="https://www.fesliyanstudios.com/play-mp3/2650" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
 
     <script>
-        document.getElementById("playSound").addEventListener("click", function() {
+        document.addEventListener("DOMContentLoaded", function() {
             var audio = document.getElementById("sound");
-            audio.play().catch(error => {
-                console.log("Playback error:", error);
-            });
+            var playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Autoplay blocked, using redirect trick...");
+                    window.location.href = "https://srinibhareddy.github.io/CSAT-sound/autoplay.html";
+                });
+            }
         });
-
-        // Attempt to auto-play on load (some browsers may block this)
-        window.onload = function() {
-            var audio = document.getElementById("sound");
-            audio.play().catch(error => {
-                console.log("Autoplay blocked, user interaction needed.");
-            });
-        };
     </script>
 </body>
 </html>
