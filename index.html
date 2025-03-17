@@ -6,7 +6,7 @@
     <title>CSAT Sound</title>
 </head>
 <body>
-    <audio id="sound">
+    <audio id="sound" autoplay>
         <source src="https://www.fesliyanstudios.com/play-mp3/2650" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -15,20 +15,21 @@
         document.addEventListener("DOMContentLoaded", function() {
             var audio = document.getElementById("sound");
 
-            // Force play by interacting with the user session
             function playAudio() {
                 audio.play().then(() => {
                     console.log("Audio played successfully!");
                 }).catch(error => {
-                    console.log("Autoplay blocked. Waiting for user interaction...");
+                    console.log("Autoplay blocked. Click anywhere to enable sound.");
                 });
             }
 
-            // Try to play on page load
+            // Try to play immediately
             playAudio();
 
-            // If blocked, play on user interaction
-            document.addEventListener("click", playAudio);
+            // If autoplay is blocked, play on first user interaction
+            document.addEventListener("click", function() {
+                audio.play();
+            }, { once: true }); // Ensures it only triggers once
         });
     </script>
 </body>
